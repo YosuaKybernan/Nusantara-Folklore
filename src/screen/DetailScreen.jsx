@@ -1,8 +1,33 @@
 import React from 'react';
-import { View, Text, StyleSheet, ImageBackground, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, ScrollView, Alert, Button } from 'react-native';
+import { deleteArtwork } from '../services/artworkService'; // import deleteArtwork
 
-export default function DetailScreen({ route }) {
-  const { story } = route.params; // menerima data dari navigasi
+export default function DetailScreen({ route, navigation }) {
+  const { story } = route.params;
+
+  const handleDelete = async () => {
+    Alert.alert(
+      'Konfirmasi Hapus',
+      'Yakin ingin menghapus cerita ini?',
+      [
+        { text: 'Batal', style: 'cancel' },
+        { 
+          text: 'Hapus', 
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await deleteArtwork(story.id);
+              Alert.alert('Berhasil', 'Cerita berhasil dihapus');
+              navigation.navigate('Home');  // kembali ke Home setelah hapus
+            } catch (error) {
+              console.error(error);
+              Alert.alert('Gagal', 'Gagal menghapus cerita. Coba lagi.');
+            }
+          }
+        },
+      ]
+    );
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -18,6 +43,11 @@ export default function DetailScreen({ route }) {
         <Text style={styles.description}>
           Ini adalah cerita rakyat berjudul {story.title}. Cerita ini berasal dari Nusantara dan memiliki pesan moral yang mendalam. 
         </Text>
+
+        {/* Tombol Hapus */}
+        <View style={{ marginTop: 20 }}>
+          <Button title="Hapus Cerita" color="red" onPress={handleDelete} />
+        </View>
       </View>
     </ScrollView>
   );
