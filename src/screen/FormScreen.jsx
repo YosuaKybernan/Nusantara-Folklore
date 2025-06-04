@@ -1,58 +1,33 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Alert, StyleSheet } from 'react-native';
-import api from '../api/api';
+import { View, TextInput, Button, Alert } from 'react-native';
+import { tambahCerita } from '../services/firestoreService';
+import { useNavigation } from '@react-navigation/native';
 
-export default function FormScreen({ navigation }) {
+const FormScreen = () => {
   const [title, setTitle] = useState('');
   const [artist, setArtist] = useState('');
   const [image, setImage] = useState('');
+  const navigation = useNavigation();
 
   const handleSubmit = async () => {
     try {
-    await api.post('/NusantaraFolklore', { title, artist, image });
-
-      Alert.alert('Berhasil', 'Data ditambahkan!');
+      await tambahCerita({ title, artist, image });
+      Alert.alert('Berhasil', 'Cerita ditambahkan!');
       navigation.goBack();
-    } catch (error) {
-      console.error(error);
-      Alert.alert('Gagal', 'Coba lagi nanti.');
+    } catch (e) {
+      Alert.alert('Gagal', 'Terjadi kesalahan saat menambah cerita.');
+      console.error(e);
     }
   };
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Judul"
-        value={title}
-        onChangeText={setTitle}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Seniman"
-        value={artist}
-        onChangeText={setArtist}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="URL Gambar"
-        value={image}
-        onChangeText={setImage}
-      />
-      <Button title="Simpan" onPress={handleSubmit} />
+    <View style={{ padding: 20 }}>
+      <TextInput placeholder="Judul" value={title} onChangeText={setTitle} />
+      <TextInput placeholder="Seniman" value={artist} onChangeText={setArtist} />
+      <TextInput placeholder="URL Gambar" value={image} onChangeText={setImage} />
+      <Button title="Simpan Cerita" onPress={handleSubmit} />
     </View>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 6,
-    padding: 10,
-    marginBottom: 15,
-  },
-});
+export default FormScreen;

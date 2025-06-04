@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "163039123925",
+    "project_id": "nusantara-folkloreee",
+    "storage_bucket": "nusantara-folkloreee.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:163039123925:android:18dc98d12eb5c46f0a855c",
+        "android_client_info": {
+          "package_name": "com.woco"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiIl9LprO39tbx4_B-1IRDffq3f_rTZEc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
